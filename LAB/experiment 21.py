@@ -1,49 +1,37 @@
 """
-EXPERIMENT 21: Opening Morphological Operation
+EXPERIMENT 21: Implement the Opening technique as a Morphological operation to dilate the foreground regions based on OpenCV.
 
 AIM:
-    To implement the Opening technique as a Morphological operation to dilate the foreground regions based on OpenCV.
+    To implement Morphological Opening (erosion followed by dilation) to remove isolated background noise and smooth object contours using OpenCV.
 
 PROCEDURE:
-    1. Import cv2, numpy, and os modules.
-    2. Read the input image from disk.
-    3. Define a 5x5 rectangular structuring element kernel.
-    4. Apply morphological opening (erosion followed by dilation) using cv2.morphologyEx(image, cv2.MORPH_OPEN, kernel).
-    5. Save the resulting opened image using cv2.imwrite().
-    6. Display original and opened images using cv2.imshow().
+    1. Import cv2 and numpy.
+    2. Read the input image.
+    3. Define a structuring element kernel of size 5x5.
+    4. Execute morphological opening using cv2.morphologyEx(image, cv2.MORPH_OPEN, kernel).
+    5. Save the opened output image.
+    6. Display the result and close all windows.
 
 INPUT:
-    photo.jpg (Input image)
+    photo.jpg (Source image)
 
 OUTPUT:
-    experiment 21_output.jpg (Opened image)
+    experiment 21_output.jpg (Output image)
 
 RESULT:
-    Thus, the opening morphological operation was successfully implemented to remove background noise and separate connected components.
+    Thus, morphological opening was successfully implemented to remove background noise while preserving foreground features using OpenCV.
 """
 
 # ==================== PROGRAM CODE ====================
 import cv2
 import numpy as np
-import os
 
-img_path = "photo.jpg" if os.path.exists("photo.jpg") else "sample.jpg"
-image = cv2.imread(img_path)
-if image is None:
-    raise FileNotFoundError(f"Image not found at {img_path}")
-
-# Define structuring element
+image = cv2.imread("photo.jpg")
 kernel = np.ones((5, 5), np.uint8)
 
-# Apply Opening (Erosion followed by Dilation)
-opening_image = cv2.morphologyEx(image, cv2.MORPH_OPEN, kernel)
+# Morphological Opening: Erosion followed by Dilation
+opened = cv2.morphologyEx(image, cv2.MORPH_OPEN, kernel)
+cv2.imwrite("experiment 21_output.jpg", opened)
+print("Opening morphological operation complete.")
 
-cv2.imwrite("experiment 21_output.jpg", opening_image)
-print("[OK] Saved experiment 21_output.jpg")
-
-cv2.imshow("Original Image", image)
-cv2.imshow("Opening Morphological Operation", opening_image)
-cv2.waitKey(1000)
-cv2.destroyAllWindows()
-
-print("RESULT: Thus, the opening morphological operation was successfully implemented to remove background noise and separate connected components.")
+print("RESULT: Thus, morphological opening was successfully implemented to remove background noise while preserving foreground features using OpenCV.")
