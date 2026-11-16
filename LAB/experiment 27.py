@@ -1,67 +1,43 @@
 """
-EXPERIMENT 27: Human Face Detection Algorithm
+EXPERIMENT 27: Implement a face detection algorithm using OpenCV to detect and locate human faces in the images.
 
 AIM:
-    To implement a face detection algorithm using OpenCV to detect and locate human faces in images.
+    To detect and locate human faces in an image using the pre-trained Haar Feature-based Cascade Classifier in OpenCV.
 
 PROCEDURE:
-    1. Import cv2 and os modules.
-    2. Load pre-trained Haar Cascade classifier for frontal face detection (haarcascade_frontalface_default.xml).
-    3. Read the input image and convert to grayscale.
-    4. Detect faces using face_cascade.detectMultiScale(gray, scaleFactor=1.1, minNeighbors=4).
-    5. Draw green bounding rectangles around all detected face locations.
-    6. Label detected faces using cv2.putText().
-    7. Save and display the face detection output image.
+    1. Import cv2.
+    2. Load the Haar Cascade classifier for frontal faces (haarcascade_frontalface_default.xml).
+    3. Read the input portrait image (face.jpg) and convert it to grayscale.
+    4. Detect faces using face_cascade.detectMultiScale() with scaleFactor=1.1 and minNeighbors=5.
+    5. Iterate through detected coordinates (x, y, w, h) and draw bounding rectangles.
+    6. Label detected faces as 'Face'.
+    7. Save and display the annotated face detection image.
 
 INPUT:
-    face.jpg (Input human portrait image)
+    face.jpg (Source image)
 
 OUTPUT:
-    experiment 27_output.jpg (Face detected image)
+    experiment 27_output.jpg (Output image)
 
 RESULT:
-    Thus, human faces were successfully detected and localized in the input image using OpenCV's Haar Cascade classifier.
+    Thus, human faces were successfully detected and localized with bounding boxes using Haar Cascade classifiers in OpenCV.
 """
 
 # ==================== PROGRAM CODE ====================
 import cv2
-import os
 
-img_path = "face.jpg" if os.path.exists("face.jpg") else "photo.jpg"
-image = cv2.imread(img_path)
-if image is None:
-    raise FileNotFoundError(f"Image not found at {img_path}")
-
-output_image = image.copy()
+image = cv2.imread("face.jpg")
 gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
 
-# Load Haar Cascade Classifier for Frontal Face
-face_cascade = cv2.CascadeClassifier(
-    cv2.data.haarcascades + 'haarcascade_frontalface_default.xml'
-)
+face_cascade = cv2.CascadeClassifier(cv2.data.haarcascades + 'haarcascade_frontalface_default.xml')
+faces = face_cascade.detectMultiScale(gray, scaleFactor=1.1, minNeighbors=5, minSize=(30, 30))
 
-# Detect faces in image
-faces = face_cascade.detectMultiScale(
-    gray,
-    scaleFactor=1.1,
-    minNeighbors=4,
-    minSize=(30, 30)
-)
-
-print(f"Detected {len(faces)} face(s).")
-
-# Draw bounding boxes around detected faces
+output = image.copy()
 for (x, y, w, h) in faces:
-    cv2.rectangle(output_image, (x, y), (x + w, y + h), (0, 255, 0), 3)
-    cv2.putText(output_image, "Human Face", (x, max(25, y - 10)),
-                cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 255, 0), 2)
+    cv2.rectangle(output, (x, y), (x + w, y + h), (0, 255, 0), 2)
+    cv2.putText(output, "Face", (x, y - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (0, 255, 0), 2)
 
-cv2.imwrite("experiment 27_output.jpg", output_image)
-print("[OK] Saved experiment 27_output.jpg")
+cv2.imwrite("experiment 27_output.jpg", output)
+print("Face detection complete.")
 
-cv2.imshow("Original Image", image)
-cv2.imshow("Face Detection", output_image)
-cv2.waitKey(1000)
-cv2.destroyAllWindows()
-
-print("RESULT: Thus, human faces were successfully detected and localized in the input image using OpenCV's Haar Cascade classifier.")
+print("RESULT: Thus, human faces were successfully detected and localized with bounding boxes using Haar Cascade classifiers in OpenCV.")
