@@ -1,7 +1,28 @@
 """
-EXPERIMENT 17
-Aim: Implementation of Image Watermarking Technique using OpenCV.
+EXPERIMENT 17: Implementation of Image Watermarking Technique
+
+AIM:
+    To implement an image watermarking technique using OpenCV.
+
+PROCEDURE:
+    1. Import cv2, numpy, and os modules.
+    2. Read the original source image and watermark image (or generate watermark).
+    3. Resize the watermark image to match the source image resolution.
+    4. Blend images using alpha blending formula via cv2.addWeighted().
+    5. Add textual watermark label using cv2.putText().
+    6. Save and display the watermarked output image.
+
+INPUT:
+    photo.jpg (Source image), watermark.jpg (Watermark overlay)
+
+OUTPUT:
+    experiment 17_output.jpg (Watermarked image)
+
+RESULT:
+    Thus, image watermarking was successfully implemented to embed a translucent and textual watermark using OpenCV.
 """
+
+# ==================== PROGRAM CODE ====================
 import cv2
 import numpy as np
 import os
@@ -39,3 +60,5 @@ cv2.imshow("Original Image", image)
 cv2.imshow("Watermarked Image", watermarked_image)
 cv2.waitKey(1000)
 cv2.destroyAllWindows()
+
+print("RESULT: Thus, image watermarking was successfully implemented to embed a translucent and textual watermark using OpenCV.")
