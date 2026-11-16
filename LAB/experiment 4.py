@@ -1,7 +1,28 @@
 """
-EXPERIMENT 4
-Aim: Implement histogram equalization on the given image and compare it with the original image using OpenCV.
+EXPERIMENT 4: Histogram Equalization on Given Image and Comparison
+
+AIM:
+    To implement histogram equalization on a given image and compare it with the original image using OpenCV.
+
+PROCEDURE:
+    1. Import cv2, matplotlib.pyplot, and os.
+    2. Read the input image and convert it to grayscale.
+    3. Equalize the grayscale image histogram using cv2.equalizeHist().
+    4. Compute histograms for both original and equalized images using cv2.calcHist().
+    5. Plot comparative graphs showing original vs equalized images and their intensity histograms.
+    6. Save the plot to disk using plt.savefig().
+
+INPUT:
+    photo.jpg (Input image)
+
+OUTPUT:
+    experiment 4_output.png (Comparative plot), experiment 4_equalized.jpg
+
+RESULT:
+    Thus, histogram equalization was successfully implemented on the given image, enhancing contrast and balancing pixel distribution.
 """
+
+# ==================== PROGRAM CODE ====================
 import cv2
 import matplotlib.pyplot as plt
 import os
@@ -27,5 +48,7 @@ plt.subplot(2, 2, 3); plt.imshow(equalized, cmap='gray'); plt.title("Equalized I
 plt.subplot(2, 2, 4); plt.plot(hist_eq, color='navy'); plt.title("Equalized Histogram")
 plt.tight_layout()
 plt.savefig("experiment 4_output.png")
-print("[OK] Saved experiment 4_output.png")
+print("[OK] Saved experiment 4_output.png and experiment 4_equalized.jpg")
 plt.close()
+
+print("RESULT: Thus, histogram equalization was successfully implemented on the given image, enhancing contrast and balancing pixel distribution.")
