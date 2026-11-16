@@ -1,7 +1,29 @@
 """
-EXPERIMENT 15
-Aim: Implement Corner Detection using Harris Corner Detection Algorithm in OpenCV.
+EXPERIMENT 15: Corner Detection using Harris Corner Detection Algorithm
+
+AIM:
+    To implement corner detection using the Harris Corner Detection algorithm in OpenCV.
+
+PROCEDURE:
+    1. Import cv2, numpy, and os modules.
+    2. Read the input image and convert to grayscale.
+    3. Cast the grayscale image array to float32.
+    4. Apply Harris corner detection using cv2.cornerHarris(gray_float, blockSize=2, ksize=3, k=0.04).
+    5. Dilate detected corner points for enhanced visualization.
+    6. Mark corner coordinates in red ([0, 0, 255]) on the output image.
+    7. Save and display the corner-detected output image.
+
+INPUT:
+    photo.jpg (Input image)
+
+OUTPUT:
+    experiment 15_output.jpg (Corner marked image)
+
+RESULT:
+    Thus, corners were successfully detected and localized in the given image using the Harris Corner Detection algorithm.
 """
+
+# ==================== PROGRAM CODE ====================
 import cv2
 import numpy as np
 import os
@@ -16,7 +38,6 @@ gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
 gray_float = np.float32(gray)
 
 # Apply Harris Corner Detector
-# cv2.cornerHarris(src, blockSize, ksize, k)
 dst = cv2.cornerHarris(gray_float, blockSize=2, ksize=3, k=0.04)
 
 # Dilate corner marks for better visibility
@@ -33,3 +54,5 @@ cv2.imshow("Original Image", image)
 cv2.imshow("Harris Corner Detection", corner_image)
 cv2.waitKey(1000)
 cv2.destroyAllWindows()
+
+print("RESULT: Thus, corners were successfully detected and localized in the given image using the Harris Corner Detection algorithm.")
