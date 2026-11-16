@@ -1,7 +1,28 @@
 """
-EXPERIMENT 24
-Aim: Implement the Black hat technique as a Morphological operation to dilate the foreground regions based on OpenCV.
+EXPERIMENT 24: Black Hat Morphological Operation
+
+AIM:
+    To implement the Black hat technique as a Morphological operation to dilate the foreground regions based on OpenCV.
+
+PROCEDURE:
+    1. Import cv2, numpy, and os modules.
+    2. Read the input image from disk.
+    3. Define a 9x9 structuring element kernel.
+    4. Apply Black Hat operation (difference between closing and input image) using cv2.morphologyEx(image, cv2.MORPH_BLACKHAT, kernel).
+    5. Save the resulting Black Hat image using cv2.imwrite().
+    6. Display original and Black Hat images using cv2.imshow().
+
+INPUT:
+    photo.jpg (Input image)
+
+OUTPUT:
+    experiment 24_output.jpg (Black hat filtered image)
+
+RESULT:
+    Thus, the black hat morphological operation was successfully implemented to isolate elements darker than their surroundings.
 """
+
+# ==================== PROGRAM CODE ====================
 import cv2
 import numpy as np
 import os
@@ -24,3 +45,5 @@ cv2.imshow("Original Image", image)
 cv2.imshow("Black Hat Morphological Operation", blackhat_image)
 cv2.waitKey(1000)
 cv2.destroyAllWindows()
+
+print("RESULT: Thus, the black hat morphological operation was successfully implemented to isolate elements darker than their surroundings.")
