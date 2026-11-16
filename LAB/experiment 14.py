@@ -1,7 +1,28 @@
 """
-EXPERIMENT 14
-Aim: Perform Perspective Transformation on the given image using Python and OpenCV.
+EXPERIMENT 14: Perspective Transformation
+
+AIM:
+    To perform Perspective Transformation on a given image using Python and OpenCV by mapping 4 corner coordinates.
+
+PROCEDURE:
+    1. Import cv2, numpy, and os modules.
+    2. Read the input image and determine height and width.
+    3. Define 4 source points (src_points) and 4 destination points (dst_points).
+    4. Calculate the 3x3 perspective transformation matrix using cv2.getPerspectiveTransform().
+    5. Warp the image using cv2.warpPerspective(image, matrix, (cols, rows)).
+    6. Save and display the perspective transformed image.
+
+INPUT:
+    photo.jpg (Input image)
+
+OUTPUT:
+    experiment 14_output.jpg (Perspective warped image)
+
+RESULT:
+    Thus, perspective transformation was successfully performed on the given image using OpenCV.
 """
+
+# ==================== PROGRAM CODE ====================
 import cv2
 import numpy as np
 import os
@@ -42,3 +63,5 @@ cv2.imshow("Original Image", image)
 cv2.imshow("Perspective Transformed Image", perspective_image)
 cv2.waitKey(1000)
 cv2.destroyAllWindows()
+
+print("RESULT: Thus, perspective transformation was successfully performed on the given image using OpenCV.")
