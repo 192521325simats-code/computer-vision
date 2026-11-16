@@ -1,49 +1,37 @@
 """
-EXPERIMENT 23: Top Hat Morphological Operation
+EXPERIMENT 23: Implement the Top hat technique as a Morphological operation to dilate the foreground regions based on OpenCV.
 
 AIM:
-    To implement the Top hat technique as a Morphological operation to dilate the foreground regions based on OpenCV.
+    To implement the Top Hat morphological filter (difference between input image and its opening) to isolate bright elements smaller than the structuring element.
 
 PROCEDURE:
-    1. Import cv2, numpy, and os modules.
-    2. Read the input image from disk.
-    3. Define a 9x9 structuring element kernel.
-    4. Apply Top Hat operation (difference between input image and opening) using cv2.morphologyEx(image, cv2.MORPH_TOPHAT, kernel).
-    5. Save the resulting Top Hat image using cv2.imwrite().
-    6. Display original and Top Hat images using cv2.imshow().
+    1. Import cv2 and numpy.
+    2. Read the input image.
+    3. Create a structuring element kernel of size 9x9.
+    4. Execute Top Hat transformation using cv2.morphologyEx(image, cv2.MORPH_TOPHAT, kernel).
+    5. Save the Top Hat filtered image to disk.
+    6. Display the output.
 
 INPUT:
-    photo.jpg (Input image)
+    photo.jpg (Source image)
 
 OUTPUT:
-    experiment 23_output.jpg (Top hat filtered image)
+    experiment 23_output.jpg (Output image)
 
 RESULT:
-    Thus, the top hat morphological operation was successfully implemented to isolate elements brighter than their surroundings.
+    Thus, the Top Hat morphological operation was successfully performed to extract prominent bright details using OpenCV.
 """
 
 # ==================== PROGRAM CODE ====================
 import cv2
 import numpy as np
-import os
 
-img_path = "photo.jpg" if os.path.exists("photo.jpg") else "sample.jpg"
-image = cv2.imread(img_path)
-if image is None:
-    raise FileNotFoundError(f"Image not found at {img_path}")
+image = cv2.imread("photo.jpg")
+kernel = cv2.getStructuringElement(cv2.MORPH_RECT, (9, 9))
 
-# Define structuring element
-kernel = np.ones((9, 9), np.uint8)
+# Top Hat: Image minus Opening
+tophat = cv2.morphologyEx(image, cv2.MORPH_TOPHAT, kernel)
+cv2.imwrite("experiment 23_output.jpg", tophat)
+print("Top Hat operation complete.")
 
-# Apply Top Hat (Difference between input image and Opening)
-tophat_image = cv2.morphologyEx(image, cv2.MORPH_TOPHAT, kernel)
-
-cv2.imwrite("experiment 23_output.jpg", tophat_image)
-print("[OK] Saved experiment 23_output.jpg")
-
-cv2.imshow("Original Image", image)
-cv2.imshow("Top Hat Morphological Operation", tophat_image)
-cv2.waitKey(1000)
-cv2.destroyAllWindows()
-
-print("RESULT: Thus, the top hat morphological operation was successfully implemented to isolate elements brighter than their surroundings.")
+print("RESULT: Thus, the Top Hat morphological operation was successfully performed to extract prominent bright details using OpenCV.")
