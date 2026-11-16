@@ -1,56 +1,52 @@
 """
-EXPERIMENT 5: Histogram Analysis Based on Color Levels
+EXPERIMENT 5: Write a Python function to analyze the histogram of the given input image based on color levels using Open CV.
 
 AIM:
-    To write a Python function to analyze the histogram of the given input image based on color levels using OpenCV.
+    To analyze the color level distribution of an input image by calculating and plotting separate histograms for the Blue, Green, and Red color channels using OpenCV.
 
 PROCEDURE:
-    1. Import cv2, matplotlib.pyplot, and os.
-    2. Define a function analyze_histogram(img_path).
-    3. Read the input color image in BGR format.
-    4. Iterate over each color channel (Blue, Green, Red) and calculate histograms using cv2.calcHist().
-    5. Plot intensity curves for each color level on a single graph.
-    6. Save the color histogram chart and display results.
+    1. Import cv2, matplotlib.pyplot, and numpy.
+    2. Read the input color image in BGR format.
+    3. Split or iterate over individual color channels: Blue (0), Green (1), and Red (2).
+    4. Calculate the histogram for each color channel using cv2.calcHist().
+    5. Plot each channel's histogram using its corresponding curve color.
+    6. Save and display the color histogram visualization.
 
 INPUT:
-    photo.jpg (Input color image)
+    photo.jpg (Source image)
 
 OUTPUT:
-    experiment 5_output.png (Color levels histogram chart)
+    experiment 5_output.png (Output image)
 
 RESULT:
-    Thus, the histogram of the input image was successfully analyzed across individual color levels (Blue, Green, Red) using OpenCV.
+    Thus, the histogram of the input image based on Blue, Green, and Red color levels was successfully computed and plotted using OpenCV.
 """
 
 # ==================== PROGRAM CODE ====================
 import cv2
 import matplotlib.pyplot as plt
-import os
 
-def analyze_histogram(img_path):
-    image = cv2.imread(img_path)
-    if image is None:
-        raise FileNotFoundError(f"Image not found at {img_path}")
-    
-    colors = ('b', 'g', 'r')
-    channel_names = ('Blue', 'Green', 'Red')
-    
-    plt.figure(figsize=(8, 5))
-    for i, col in enumerate(colors):
-        hist = cv2.calcHist([image], [i], None, [256], [0, 256])
-        plt.plot(hist, color=col, label=f"{channel_names[i]} Level")
-        plt.xlim([0, 256])
-        
-    plt.title("Histogram Based on Color Levels")
-    plt.xlabel("Color Levels (0 - 255)")
-    plt.ylabel("Number of Pixels")
-    plt.legend()
-    plt.grid(True)
-    plt.savefig("experiment 5_output.png")
-    print("[OK] Saved experiment 5_output.png")
-    plt.close()
+image = cv2.imread("photo.jpg")
+colors = ('b', 'g', 'r')
+channel_names = ('Blue Channel', 'Green Channel', 'Red Channel')
 
-img_path = "photo.jpg" if os.path.exists("photo.jpg") else "sample.jpg"
-analyze_histogram(img_path)
+plt.figure(figsize=(10, 5))
+plt.subplot(1, 2, 1)
+plt.imshow(cv2.cvtColor(image, cv2.COLOR_BGR2RGB))
+plt.title("Original Input Image")
+plt.axis("off")
 
-print("RESULT: Thus, the histogram of the input image was successfully analyzed across individual color levels (Blue, Green, Red) using OpenCV.")
+plt.subplot(1, 2, 2)
+for i, col in enumerate(colors):
+    hist = cv2.calcHist([image], [i], None, [256], [0, 256])
+    plt.plot(hist, color=col, label=channel_names[i])
+plt.title("Color Level Histogram Analysis")
+plt.xlabel("Pixel Intensity")
+plt.ylabel("Frequency")
+plt.legend()
+plt.tight_layout()
+plt.savefig("experiment 5_output.png")
+plt.close()
+print("Color histogram analysis complete.")
+
+print("RESULT: Thus, the histogram of the input image based on Blue, Green, and Red color levels was successfully computed and plotted using OpenCV.")
