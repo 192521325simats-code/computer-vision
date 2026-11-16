@@ -1,7 +1,29 @@
 """
-EXPERIMENT 18
-Aim: Implement image cropping, copying and pasting to select a region of interest (ROI) from the source image using OpenCV.
+EXPERIMENT 18: Image Cropping, Copying, and Pasting (Region of Interest - ROI)
+
+AIM:
+    To implement image cropping, copying, and pasting to select a region of interest (ROI) from the source image using OpenCV.
+
+PROCEDURE:
+    1. Import cv2 and os modules.
+    2. Read the input image and retrieve height and width.
+    3. Define bounding coordinates (y1:y2, x1:x2) for the target ROI.
+    4. Crop the Region of Interest using NumPy array slicing: roi = image[y1:y2, x1:x2].
+    5. Paste the cropped ROI into another location in the image: output_image[y:y+h, x:x+w] = roi.
+    6. Draw bounding indicator boxes around source and pasted ROI locations.
+    7. Save the cropped ROI and final composite image.
+
+INPUT:
+    photo.jpg (Input image)
+
+OUTPUT:
+    experiment 18_output.jpg, experiment 18_cropped_roi.jpg
+
+RESULT:
+    Thus, image cropping, copying, and pasting of a Region of Interest (ROI) was successfully implemented using OpenCV.
 """
+
+# ==================== PROGRAM CODE ====================
 import cv2
 import os
 
@@ -43,3 +65,5 @@ cv2.imshow("Cropped ROI", roi)
 cv2.imshow("ROI Copy-Paste Result", output_image)
 cv2.waitKey(1000)
 cv2.destroyAllWindows()
+
+print("RESULT: Thus, image cropping, copying, and pasting of a Region of Interest (ROI) was successfully implemented using OpenCV.")
