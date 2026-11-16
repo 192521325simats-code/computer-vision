@@ -1,67 +1,47 @@
 """
-EXPERIMENT 14: Perspective Transformation
+EXPERIMENT 14: Perform Perspective Transformation on the given image using python and Open CV.
 
 AIM:
-    To perform Perspective Transformation on a given image using Python and OpenCV by mapping 4 corner coordinates.
+    To perform Perspective Transformation on an image using four reference points to change the viewing perspective (birds-eye view/homography).
 
 PROCEDURE:
-    1. Import cv2, numpy, and os modules.
-    2. Read the input image and determine height and width.
-    3. Define 4 source points (src_points) and 4 destination points (dst_points).
-    4. Calculate the 3x3 perspective transformation matrix using cv2.getPerspectiveTransform().
-    5. Warp the image using cv2.warpPerspective(image, matrix, (cols, rows)).
-    6. Save and display the perspective transformed image.
+    1. Import cv2 and numpy.
+    2. Read the input image.
+    3. Define four source coordinates on the input plane.
+    4. Define four destination coordinates on the target plane.
+    5. Calculate the 3x3 perspective transformation matrix using cv2.getPerspectiveTransform().
+    6. Apply the perspective warp using cv2.warpPerspective().
+    7. Save and display the perspective transformed image.
 
 INPUT:
-    photo.jpg (Input image)
+    photo.jpg (Source image)
 
 OUTPUT:
-    experiment 14_output.jpg (Perspective warped image)
+    experiment 14_output.jpg (Output image)
 
 RESULT:
-    Thus, perspective transformation was successfully performed on the given image using OpenCV.
+    Thus, perspective transformation was successfully performed on the image using OpenCV cv2.warpPerspective.
 """
 
 # ==================== PROGRAM CODE ====================
 import cv2
 import numpy as np
-import os
 
-img_path = "photo.jpg" if os.path.exists("photo.jpg") else "sample.jpg"
-image = cv2.imread(img_path)
-if image is None:
-    raise FileNotFoundError(f"Image not found at {img_path}")
+image = cv2.imread("photo.jpg")
+h, w = image.shape[:2]
 
-rows, cols = image.shape[:2]
+# Define 4 corner source points and destination points
+pts1 = np.float32([[100, 100], [w - 100, 80], [80, h - 80], [w - 80, h - 100]])
+pts2 = np.float32([[0, 0], [w, 0], [0, h], [w, h]])
 
-# Select 4 points from the original image
-src_points = np.float32([
-    [100, 100],
-    [cols - 100, 100],
-    [50, rows - 50],
-    [cols - 50, rows - 50]
-])
+matrix = cv2.getPerspectiveTransform(pts1, pts2)
+perspective_result = cv2.warpPerspective(image, matrix, (w, h))
 
-# Select corresponding target points in destination image
-dst_points = np.float32([
-    [0, 0],
-    [cols, 0],
-    [120, rows],
-    [cols - 120, rows]
-])
-
-# Compute 3x3 perspective transformation matrix
-matrix = cv2.getPerspectiveTransform(src_points, dst_points)
-
-# Apply warpPerspective
-perspective_image = cv2.warpPerspective(image, matrix, (cols, rows))
-
-cv2.imwrite("experiment 14_output.jpg", perspective_image)
-print("[OK] Saved experiment 14_output.jpg")
-
-cv2.imshow("Original Image", image)
-cv2.imshow("Perspective Transformed Image", perspective_image)
+# Save and display
+cv2.imwrite("experiment 14_output.jpg", perspective_result)
+cv2.imshow("Perspective Transformed", perspective_result)
 cv2.waitKey(1000)
 cv2.destroyAllWindows()
+print("Perspective transformation complete.")
 
-print("RESULT: Thus, perspective transformation was successfully performed on the given image using OpenCV.")
+print("RESULT: Thus, perspective transformation was successfully performed on the image using OpenCV cv2.warpPerspective.")
