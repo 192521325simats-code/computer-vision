@@ -1,45 +1,44 @@
 """
-EXPERIMENT 8: Morphological Dilation using Dilate Function
+EXPERIMENT 8: Perform basic Image Handling and processing operations on the image is to read an image in python and Dilate an Image using Dilate function.
 
 AIM:
-    To perform basic image handling and processing operations by reading an image in Python and applying morphological dilation using OpenCV's dilate() function.
+    To perform morphological dilation on a given image using a structuring element kernel to expand foreground boundaries and fill small holes.
 
 PROCEDURE:
-    1. Import cv2, numpy, and os.
-    2. Read the input image from storage using cv2.imread().
-    3. Define a 5x5 structuring element kernel using np.ones((5, 5), np.uint8).
-    4. Apply morphological dilation using cv2.dilate(image, kernel, iterations=1).
+    1. Import cv2 and numpy.
+    2. Read the input image using cv2.imread().
+    3. Define a structuring element kernel of size 5x5 using np.ones().
+    4. Apply morphological dilation using cv2.dilate().
     5. Save the dilated output image using cv2.imwrite().
-    6. Display original and dilated images using cv2.imshow().
+    6. Display original and dilated images.
+    7. Close all display windows.
 
 INPUT:
-    photo.jpg (Input image)
+    photo.jpg (Source image)
 
 OUTPUT:
-    experiment 8_output.jpg (Dilated image)
+    experiment 8_output.jpg (Output image)
 
 RESULT:
-    Thus, morphological dilation was successfully implemented on the image using OpenCV's dilate() function.
+    Thus, morphological dilation was successfully performed on the input image using OpenCV.
 """
 
 # ==================== PROGRAM CODE ====================
 import cv2
 import numpy as np
-import os
 
-img_path = "photo.jpg" if os.path.exists("photo.jpg") else "sample.jpg"
-image = cv2.imread(img_path)
-if image is None:
-    raise FileNotFoundError(f"Image not found at {img_path}")
-
+image = cv2.imread("photo.jpg")
 kernel = np.ones((5, 5), np.uint8)
-dilated = cv2.dilate(image, kernel, iterations=1)
-cv2.imwrite("experiment 8_output.jpg", dilated)
-print("[OK] Saved experiment 8_output.jpg")
 
+# Perform dilation
+dilated = cv2.dilate(image, kernel, iterations=1)
+
+# Save and display
+cv2.imwrite("experiment 8_output.jpg", dilated)
 cv2.imshow("Original Image", image)
 cv2.imshow("Dilated Image", dilated)
 cv2.waitKey(1000)
 cv2.destroyAllWindows()
+print("Dilation operation complete.")
 
-print("RESULT: Thus, morphological dilation was successfully implemented on the image using OpenCV's dilate() function.")
+print("RESULT: Thus, morphological dilation was successfully performed on the input image using OpenCV.")
