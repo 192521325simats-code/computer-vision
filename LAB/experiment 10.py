@@ -1,7 +1,28 @@
 """
-EXPERIMENT 10
-Aim: Perform a 90-degree rotation clockwise along the y-axis for the given image.
+EXPERIMENT 10: 90-Degree Clockwise Rotation along Y-Axis
+
+AIM:
+    To perform a 90-degree clockwise rotation and vertical/y-axis reflection for a given image using OpenCV.
+
+PROCEDURE:
+    1. Import cv2 and os modules.
+    2. Read the input image from disk using cv2.imread().
+    3. Rotate the image 90 degrees clockwise using cv2.rotate(image, cv2.ROTATE_90_CLOCKWISE).
+    4. Apply horizontal flip along the y-axis using cv2.flip(image, 1).
+    5. Save the rotated and flipped images using cv2.imwrite().
+    6. Display output images and close windows.
+
+INPUT:
+    photo.jpg (Input image)
+
+OUTPUT:
+    experiment 10_output.jpg (90-deg CW rotated), experiment 10_y_axis_flipped.jpg
+
+RESULT:
+    Thus, a 90-degree clockwise rotation and y-axis reflection were successfully performed on the given image using OpenCV.
 """
+
+# ==================== PROGRAM CODE ====================
 import cv2
 import os
 
@@ -25,3 +46,5 @@ cv2.imshow("90 Degree Clockwise Rotation", rotated_90)
 cv2.imshow("Flipped along Y-Axis", flipped_y)
 cv2.waitKey(1000)
 cv2.destroyAllWindows()
+
+print("RESULT: Thus, a 90-degree clockwise rotation and y-axis reflection were successfully performed on the given image using OpenCV.")
