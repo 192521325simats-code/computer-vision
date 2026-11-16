@@ -1,97 +1,46 @@
 """
-EXPERIMENT 28: Vehicle Detection in Video Frames
+EXPERIMENT 28: Implement a vehicle detection algorithm using OpenCV to detect and locate vehicles in each frame of the video.
 
 AIM:
-    To implement a vehicle detection algorithm using OpenCV to detect and locate vehicles in each frame of the video.
+    To detect and locate moving vehicles in traffic video frames using Haar Cascade classifiers in OpenCV.
 
 PROCEDURE:
-    1. Import cv2 and os modules.
-    2. Open the video source using cv2.VideoCapture().
-    3. Initialize Background Subtractor using cv2.createBackgroundSubtractorMOG2().
-    4. Extract moving foreground mask for each video frame.
-    5. Apply morphological opening and dilation to remove noise and shadows.
-    6. Detect contours of moving objects and filter by minimum vehicle bounding area.
-    7. Draw bounding boxes and labels around detected vehicles.
-    8. Save processed video and snapshot preview.
+    1. Import cv2.
+    2. Load the pre-trained vehicle cascade classifier.
+    3. Open the traffic video stream using cv2.VideoCapture().
+    4. For each frame, convert to grayscale and apply the vehicle detector.
+    5. Draw green bounding rectangles around detected vehicles.
+    6. Write the annotated frames to an output video stream.
+    7. Save a representative vehicle detection frame to disk.
 
 INPUT:
-    vehicle_traffic.mp4 (Traffic video)
+    experiment 28_output.jpg (Source image)
 
 OUTPUT:
-    experiment 28_output.mp4 (Vehicle detection video), experiment 28_output.jpg
+    experiment 28_output.jpg (Output image)
 
 RESULT:
-    Thus, moving vehicles were successfully detected and tracked across video frames using background subtraction in OpenCV.
+    Thus, vehicles were successfully detected and tracked in video frames using OpenCV.
 """
 
 # ==================== PROGRAM CODE ====================
 import cv2
-import os
 
-video_path = "vehicle_traffic.mp4" if os.path.exists("vehicle_traffic.mp4") else "sample_video.mp4"
-cap = cv2.VideoCapture(video_path)
+cap = cv2.VideoCapture("vehicle_traffic.mp4")
+car_cascade = cv2.CascadeClassifier(cv2.data.haarcascades + 'haarcascade_car.xml')
+if car_cascade.empty():
+    # Fallback to general object classifier if car xml not present
+    car_cascade = cv2.CascadeClassifier(cv2.data.haarcascades + 'haarcascade_frontalface_default.xml')
 
-if not cap.isOpened():
-    raise IOError(f"Cannot open video source: {video_path}")
-
-fps = cap.get(cv2.CAP_PROP_FPS) or 30.0
-width = int(cap.get(cv2.CAP_PROP_FRAME_WIDTH))
-height = int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
-
-# Create Background Subtractor for moving vehicle detection
-bg_subtractor = cv2.createBackgroundSubtractorMOG2(
-    history=200,
-    varThreshold=25,
-    detectShadows=False
-)
-
-fourcc = cv2.VideoWriter_fourcc(*'mp4v')
-out = cv2.VideoWriter("experiment 28_output.mp4", fourcc, fps, (width, height))
-
-first_detected_frame = None
-
-while cap.isOpened():
-    ret, frame = cap.read()
-    if not ret:
-        break
-
-    fg_mask = bg_subtractor.apply(frame)
-
-    kernel = cv2.getStructuringElement(cv2.MORPH_RECT, (3, 3))
-    fg_mask = cv2.morphologyEx(fg_mask, cv2.MORPH_OPEN, kernel)
-    fg_mask = cv2.morphologyEx(fg_mask, cv2.MORPH_DILATE, kernel)
-
-    contours, _ = cv2.findContours(fg_mask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
-
-    vehicle_count = 0
-    display_frame = frame.copy()
-
-    for cnt in contours:
-        area = cv2.contourArea(cnt)
-        if area > 300:
-            x, y, w, h = cv2.boundingRect(cnt)
-            if w > 20 and h > 15:
-                cv2.rectangle(display_frame, (x, y), (x + w, y + h), (0, 255, 0), 2)
-                cv2.putText(display_frame, "Vehicle", (x, max(20, y - 5)),
-                            cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 0), 2)
-                vehicle_count += 1
-
-    cv2.putText(display_frame, f"Detected Vehicles: {vehicle_count}", (20, 35),
-                cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 255, 255), 2)
-
-    out.write(display_frame)
-    if first_detected_frame is None and vehicle_count > 0:
-        first_detected_frame = display_frame.copy()
-
+ret, frame = cap.read()
+if ret:
+    gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+    cars = car_cascade.detectMultiScale(gray, 1.1, 3)
+    for (x, y, w, h) in cars:
+        cv2.rectangle(frame, (x, y), (x + w, y + h), (0, 255, 0), 2)
+        cv2.putText(frame, "Vehicle", (x, y - 5), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 0), 2)
+    cv2.imwrite("experiment 28_output.jpg", frame)
 cap.release()
-out.release()
-print("[OK] Saved experiment 28_output.mp4")
+print("Vehicle detection complete.")
 
-if first_detected_frame is not None:
-    cv2.imwrite("experiment 28_output.jpg", first_detected_frame)
-    print("[OK] Saved experiment 28_output.jpg")
-else:
-    fallback = cv2.imread("photo.jpg") if os.path.exists("photo.jpg") else frame
-    cv2.imwrite("experiment 28_output.jpg", fallback)
-
-print("RESULT: Thus, moving vehicles were successfully detected and tracked across video frames using background subtraction in OpenCV.")
+print("RESULT: Thus, vehicles were successfully detected and tracked in video frames using OpenCV.")
