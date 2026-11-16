@@ -1,7 +1,30 @@
 """
-EXPERIMENT 30
-Aim: Implement a Smile detection algorithm using OpenCV to detect and locate human smile in the images.
+EXPERIMENT 30: Human Smile Detection Algorithm
+
+AIM:
+    To implement a Smile detection algorithm using OpenCV to detect and locate human smile in the images.
+
+PROCEDURE:
+    1. Import cv2 and os modules.
+    2. Load pre-trained Haar Cascade classifiers for face and smile (haarcascade_smile.xml).
+    3. Read the input image and convert to grayscale.
+    4. Detect faces to locate the head region.
+    5. Extract the lower facial region (mouth ROI) where smiles occur.
+    6. Apply smile cascade detector within the mouth ROI.
+    7. Draw green bounding rectangles around detected smile regions and label them.
+    8. Save and display the smile detection output image.
+
+INPUT:
+    face.jpg (Input portrait image)
+
+OUTPUT:
+    experiment 30_output.jpg (Smile detected image)
+
+RESULT:
+    Thus, human smile was successfully detected and localized in the image using Haar Cascade classifiers in OpenCV.
 """
+
+# ==================== PROGRAM CODE ====================
 import cv2
 import os
 
@@ -26,7 +49,6 @@ smile_count = 0
 for (x, y, w, h) in faces:
     cv2.rectangle(output_image, (x, y), (x + w, y + h), (180, 180, 180), 1)
 
-    # Mouth ROI is typically in lower half of face
     mouth_y = y + int(h * 0.5)
     mouth_h = int(h * 0.5)
     mouth_roi_gray = gray[mouth_y:y + h, x:x + w]
@@ -48,3 +70,5 @@ cv2.imshow("Original Image", image)
 cv2.imshow("Smile Detection", output_image)
 cv2.waitKey(1000)
 cv2.destroyAllWindows()
+
+print("RESULT: Thus, human smile was successfully detected and localized in the image using Haar Cascade classifiers in OpenCV.")
