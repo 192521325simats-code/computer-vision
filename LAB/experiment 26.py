@@ -1,7 +1,29 @@
 """
-EXPERIMENT 26
-Aim: Implement a function to reverse the frames of the video to create a video in reverse mode using OpenCV.
+EXPERIMENT 26: Reverse Video Frame Playback
+
+AIM:
+    To implement a function to reverse the frames of the video to create a video in reverse mode using OpenCV.
+
+PROCEDURE:
+    1. Import cv2 and os modules.
+    2. Open the video source using cv2.VideoCapture().
+    3. Read all frames of the video sequentially into a list in memory.
+    4. Obtain frame width, height, and original FPS.
+    5. Initialize cv2.VideoWriter with mp4v codec.
+    6. Iterate over frames in reverse order (frames[::-1]) and write each frame to the output video.
+    7. Save the reversed video file and snapshot preview.
+
+INPUT:
+    sample_video.mp4 (Input video)
+
+OUTPUT:
+    experiment 26_output.mp4 (Reversed video), experiment 26_output.jpg
+
+RESULT:
+    Thus, video frames were successfully read and inverted to generate a video in reverse playback mode using OpenCV.
 """
+
+# ==================== PROGRAM CODE ====================
 import cv2
 import os
 
@@ -31,7 +53,6 @@ def reverse_video(input_path="sample_video.mp4", output_video_path="experiment 2
     if total_frames == 0:
         raise ValueError("No frames read from video.")
 
-    # Write frames in reverse order
     fourcc = cv2.VideoWriter_fourcc(*'mp4v')
     out = cv2.VideoWriter(output_video_path, fourcc, fps, (width, height))
 
@@ -45,7 +66,6 @@ def reverse_video(input_path="sample_video.mp4", output_video_path="experiment 2
     out.release()
     print(f"[OK] Saved {output_video_path}")
 
-    # Also save snapshot image preview
     if frames:
         preview = frames[-1].copy()
         cv2.putText(preview, "EXP 26: Reversed Video Frame Snapshot", (20, 40),
@@ -55,3 +75,5 @@ def reverse_video(input_path="sample_video.mp4", output_video_path="experiment 2
 
 if __name__ == "__main__":
     reverse_video()
+
+print("RESULT: Thus, video frames were successfully read and inverted to generate a video in reverse playback mode using OpenCV.")
