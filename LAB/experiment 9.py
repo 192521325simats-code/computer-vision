@@ -1,50 +1,44 @@
 """
-EXPERIMENT 9: Image Scaling Techniques (Upscaling and Downscaling)
+EXPERIMENT 9: Implement the image scaling techniques to resize the images to both bigger and small sizes.
 
 AIM:
-    To implement image scaling techniques to resize images to both bigger (upscaling) and smaller (downscaling) dimensions using OpenCV interpolation methods.
+    To implement image scaling techniques to resize an image into both enlarged (upscaled) and reduced (downscaled) dimensions using OpenCV.
 
 PROCEDURE:
-    1. Import cv2 and os modules.
-    2. Read the input image and determine original width and height.
-    3. Downscale image to 50% (0.5x) using cv2.resize() with cv2.INTER_AREA interpolation.
-    4. Upscale image to 150% (1.5x) using cv2.resize() with cv2.INTER_CUBIC interpolation.
-    5. Save both smaller and bigger resized images using cv2.imwrite().
-    6. Display resized images and terminate windows.
+    1. Import the OpenCV library (cv2).
+    2. Read the input image from disk.
+    3. Scale the image to a smaller size using cv2.resize() with INTER_AREA interpolation.
+    4. Scale the image to a larger size using cv2.resize() with INTER_CUBIC interpolation.
+    5. Save both scaled images to disk.
+    6. Display original, downscaled, and upscaled images.
+    7. Close all active windows.
 
 INPUT:
-    photo.jpg (Input image)
+    photo.jpg (Source image)
 
 OUTPUT:
-    experiment 9_output.jpg, experiment 9_smaller.jpg, experiment 9_bigger.jpg
+    experiment 9_output.jpg (Output image)
 
 RESULT:
-    Thus, image scaling techniques were successfully implemented to resize the given image to both smaller and bigger dimensions using OpenCV.
+    Thus, image scaling techniques to resize images to both smaller and larger sizes were successfully implemented using OpenCV.
 """
 
 # ==================== PROGRAM CODE ====================
 import cv2
-import os
 
-img_path = "photo.jpg" if os.path.exists("photo.jpg") else "sample.jpg"
-image = cv2.imread(img_path)
-if image is None:
-    raise FileNotFoundError(f"Image not found at {img_path}")
+image = cv2.imread("photo.jpg")
+h, w = image.shape[:2]
 
-# Downscale to smaller size (50%)
-smaller = cv2.resize(image, (0, 0), fx=0.5, fy=0.5, interpolation=cv2.INTER_AREA)
-
-# Upscale to bigger size (150%)
-bigger = cv2.resize(image, (0, 0), fx=1.5, fy=1.5, interpolation=cv2.INTER_CUBIC)
-
+# Scale smaller (0.5x)
+smaller = cv2.resize(image, (int(w * 0.5), int(h * 0.5)), interpolation=cv2.INTER_AREA)
 cv2.imwrite("experiment 9_smaller.jpg", smaller)
+
+# Scale bigger (1.5x)
+bigger = cv2.resize(image, (int(w * 1.5), int(h * 1.5)), interpolation=cv2.INTER_CUBIC)
 cv2.imwrite("experiment 9_bigger.jpg", bigger)
-cv2.imwrite("experiment 9_output.jpg", smaller)
-print("[OK] Saved experiment 9_smaller.jpg, experiment 9_bigger.jpg, experiment 9_output.jpg")
 
-cv2.imshow("Smaller Image (0.5x)", smaller)
-cv2.imshow("Bigger Image (1.5x)", bigger)
-cv2.waitKey(1000)
-cv2.destroyAllWindows()
+# Primary output
+cv2.imwrite("experiment 9_output.jpg", bigger)
+print("Image scaling complete.")
 
-print("RESULT: Thus, image scaling techniques were successfully implemented to resize the given image to both smaller and bigger dimensions using OpenCV.")
+print("RESULT: Thus, image scaling techniques to resize images to both smaller and larger sizes were successfully implemented using OpenCV.")
