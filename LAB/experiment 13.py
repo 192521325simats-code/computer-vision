@@ -1,7 +1,28 @@
 """
-EXPERIMENT 13
-Aim: Perform Affine Transformation on the given image using python and OpenCV.
+EXPERIMENT 13: Affine Transformation
+
+AIM:
+    To perform Affine Transformation on a given image using Python and OpenCV by mapping 3 non-collinear reference points.
+
+PROCEDURE:
+    1. Import cv2, numpy, and os modules.
+    2. Read the input image and obtain its dimensions (rows, cols).
+    3. Define 3 non-collinear reference points in source and destination coordinates.
+    4. Compute the 2x3 affine matrix using cv2.getAffineTransform(pts1, pts2).
+    5. Apply affine transformation using cv2.warpAffine(image, M, (cols, rows)).
+    6. Save and display the warped output image.
+
+INPUT:
+    photo.jpg (Input image)
+
+OUTPUT:
+    experiment 13_output.jpg (Affine transformed image)
+
+RESULT:
+    Thus, affine transformation was successfully implemented on the given image using OpenCV.
 """
+
+# ==================== PROGRAM CODE ====================
 import cv2
 import numpy as np
 import os
@@ -30,3 +51,5 @@ cv2.imshow("Original Image", image)
 cv2.imshow("Affine Transformed Image", affine_img)
 cv2.waitKey(1000)
 cv2.destroyAllWindows()
+
+print("RESULT: Thus, affine transformation was successfully implemented on the given image using OpenCV.")
