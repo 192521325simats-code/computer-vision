@@ -1,7 +1,29 @@
 """
-EXPERIMENT 29
-Aim: Implement an Eye detection algorithm using OpenCV to detect and locate human eyes in images.
+EXPERIMENT 29: Human Eye Detection Algorithm
+
+AIM:
+    To implement an Eye detection algorithm using OpenCV to detect and locate human eyes in the images.
+
+PROCEDURE:
+    1. Import cv2 and os modules.
+    2. Load pre-trained Haar Cascade classifiers for face and eyes (haarcascade_eye.xml).
+    3. Read the input image and convert to grayscale.
+    4. Detect faces first to isolate the facial region of interest (ROI).
+    5. Apply eye cascade detector within the face ROI.
+    6. Draw blue bounding rectangles around detected eyes and label them.
+    7. Save and display the eye detection output image.
+
+INPUT:
+    face.jpg (Input portrait image)
+
+OUTPUT:
+    experiment 29_output.jpg (Eye detected image)
+
+RESULT:
+    Thus, human eyes were successfully detected and localized within the face region using Haar Cascade classifiers in OpenCV.
 """
+
+# ==================== PROGRAM CODE ====================
 import cv2
 import os
 
@@ -44,3 +66,5 @@ cv2.imshow("Original Image", image)
 cv2.imshow("Eye Detection", output_image)
 cv2.waitKey(1000)
 cv2.destroyAllWindows()
+
+print("RESULT: Thus, human eyes were successfully detected and localized within the face region using Haar Cascade classifiers in OpenCV.")
