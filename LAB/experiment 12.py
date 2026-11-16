@@ -1,7 +1,27 @@
 """
-EXPERIMENT 12
-Aim: Perform a 270-degree rotation clockwise along the y-axis for the given image.
+EXPERIMENT 12: 270-Degree Clockwise Rotation along Y-Axis
+
+AIM:
+    To perform a 270-degree clockwise rotation (equivalent to 90 degrees counter-clockwise) for a given image using OpenCV.
+
+PROCEDURE:
+    1. Import cv2 and os modules.
+    2. Read the input image from disk using cv2.imread().
+    3. Rotate the image 270 degrees clockwise using cv2.rotate(image, cv2.ROTATE_90_COUNTERCLOCKWISE).
+    4. Save the 270-degree rotated output image using cv2.imwrite().
+    5. Display original and rotated images using cv2.imshow().
+
+INPUT:
+    photo.jpg (Input image)
+
+OUTPUT:
+    experiment 12_output.jpg (270-degree rotated image)
+
+RESULT:
+    Thus, a 270-degree clockwise rotation was successfully performed on the given image using OpenCV.
 """
+
+# ==================== PROGRAM CODE ====================
 import cv2
 import os
 
@@ -20,3 +40,5 @@ cv2.imshow("Original Image", image)
 cv2.imshow("270 Degree Rotation", rotated_270)
 cv2.waitKey(1000)
 cv2.destroyAllWindows()
+
+print("RESULT: Thus, a 270-degree clockwise rotation was successfully performed on the given image using OpenCV.")
