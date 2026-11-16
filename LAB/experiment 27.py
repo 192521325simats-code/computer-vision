@@ -1,7 +1,29 @@
 """
-EXPERIMENT 27
-Aim: Implement a face detection algorithm using OpenCV to detect and locate human faces in images.
+EXPERIMENT 27: Human Face Detection Algorithm
+
+AIM:
+    To implement a face detection algorithm using OpenCV to detect and locate human faces in images.
+
+PROCEDURE:
+    1. Import cv2 and os modules.
+    2. Load pre-trained Haar Cascade classifier for frontal face detection (haarcascade_frontalface_default.xml).
+    3. Read the input image and convert to grayscale.
+    4. Detect faces using face_cascade.detectMultiScale(gray, scaleFactor=1.1, minNeighbors=4).
+    5. Draw green bounding rectangles around all detected face locations.
+    6. Label detected faces using cv2.putText().
+    7. Save and display the face detection output image.
+
+INPUT:
+    face.jpg (Input human portrait image)
+
+OUTPUT:
+    experiment 27_output.jpg (Face detected image)
+
+RESULT:
+    Thus, human faces were successfully detected and localized in the input image using OpenCV's Haar Cascade classifier.
 """
+
+# ==================== PROGRAM CODE ====================
 import cv2
 import os
 
@@ -41,3 +63,5 @@ cv2.imshow("Original Image", image)
 cv2.imshow("Face Detection", output_image)
 cv2.waitKey(1000)
 cv2.destroyAllWindows()
+
+print("RESULT: Thus, human faces were successfully detected and localized in the input image using OpenCV's Haar Cascade classifier.")
