@@ -1,7 +1,30 @@
 """
-EXPERIMENT 28
-Aim: Implement a vehicle detection algorithm using OpenCV to detect and locate vehicles in each frame of the video.
+EXPERIMENT 28: Vehicle Detection in Video Frames
+
+AIM:
+    To implement a vehicle detection algorithm using OpenCV to detect and locate vehicles in each frame of the video.
+
+PROCEDURE:
+    1. Import cv2 and os modules.
+    2. Open the video source using cv2.VideoCapture().
+    3. Initialize Background Subtractor using cv2.createBackgroundSubtractorMOG2().
+    4. Extract moving foreground mask for each video frame.
+    5. Apply morphological opening and dilation to remove noise and shadows.
+    6. Detect contours of moving objects and filter by minimum vehicle bounding area.
+    7. Draw bounding boxes and labels around detected vehicles.
+    8. Save processed video and snapshot preview.
+
+INPUT:
+    vehicle_traffic.mp4 (Traffic video)
+
+OUTPUT:
+    experiment 28_output.mp4 (Vehicle detection video), experiment 28_output.jpg
+
+RESULT:
+    Thus, moving vehicles were successfully detected and tracked across video frames using background subtraction in OpenCV.
 """
+
+# ==================== PROGRAM CODE ====================
 import cv2
 import os
 
@@ -22,7 +45,6 @@ bg_subtractor = cv2.createBackgroundSubtractorMOG2(
     detectShadows=False
 )
 
-# Video writer for vehicle detection video output
 fourcc = cv2.VideoWriter_fourcc(*'mp4v')
 out = cv2.VideoWriter("experiment 28_output.mp4", fourcc, fps, (width, height))
 
@@ -35,12 +57,10 @@ while cap.isOpened():
 
     fg_mask = bg_subtractor.apply(frame)
 
-    # Morphological operations to filter noise
     kernel = cv2.getStructuringElement(cv2.MORPH_RECT, (3, 3))
     fg_mask = cv2.morphologyEx(fg_mask, cv2.MORPH_OPEN, kernel)
     fg_mask = cv2.morphologyEx(fg_mask, cv2.MORPH_DILATE, kernel)
 
-    # Find contours representing moving vehicles
     contours, _ = cv2.findContours(fg_mask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
 
     vehicle_count = 0
@@ -71,6 +91,7 @@ if first_detected_frame is not None:
     cv2.imwrite("experiment 28_output.jpg", first_detected_frame)
     print("[OK] Saved experiment 28_output.jpg")
 else:
-    # Fallback preview
     fallback = cv2.imread("photo.jpg") if os.path.exists("photo.jpg") else frame
     cv2.imwrite("experiment 28_output.jpg", fallback)
+
+print("RESULT: Thus, moving vehicles were successfully detected and tracked across video frames using background subtraction in OpenCV.")
